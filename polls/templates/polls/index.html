@@ -1,0 +1,24 @@
+{% extends "layout/basic.html" %}
+
+{% block content %}
+
+{% if request.user.is_authenticated %}
+    {% if latest_question_list %}
+    <ul>
+        {% for question in latest_question_list %}
+            {% if question.was_published_recently %}
+            <li><a href="{% url 'polls:detail' question.id %}" class="question-index">
+                <p class="h4">{{question.short_desc}}</p>
+                <p class="h5 text-secondary">Голосов: {{question.total_votes}}</p>
+            </a></li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+    {% else %}
+     <p class="h2">Нет вопросов!</p>
+    {% endif %}
+{% else %}
+    <p class="h2">Войдите, чтобы увидеть вопросы</p>
+{% endif %}
+
+{% endblock %}

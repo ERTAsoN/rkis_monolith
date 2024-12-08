@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    {% load bootstrap4 %}
+    {% bootstrap_css %}
+
+    {% block title %}<title>Design</title>{% endblock %}
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}"/>
+    {% comment %}<script src="{% static 'script/script.js' %}"></script>{% endcomment %}
+</head>
+
+<body>
+<div class="container-fluid mt-3">
+    <div class="row">
+        <div class="col-sm-2">
+            {% block sidebar %}
+                <ul class="sidebar-nav h5">
+                    <li><a href="{% url 'polls:index' %}">Главная</a></li>
+                    {% if user.is_authenticated %}
+                        {% if user.avatar %}
+                            <img src="{{ user.avatar.url }}" alt="{{ user.avatar.title }}" class="avatar-index mt-4"/>
+                        {% else %}
+                            <div class="avatar-index-blank mt-4"></div>
+                        {% endif %}
+                        <li>Аккаунт: <span class="text-secondary">{{ user }}</span></li>
+                        <li><a href="{% url 'polls:profile' %}">Профиль</a></li>
+                        <li><a href="{% url 'polls:logout' %}">Выйти</a></li>
+                    {% else %}
+                        <li class="mt-4"><a href="{% url 'polls:login' %}">Войти</a></li>
+                        <li><a href="{% url 'polls:register' %}">Регистрация</a></li>
+                    {% endif %}
+                </ul>
+            {% endblock %}
+        </div>
+        <div class="col-sm-10">{% block content %}{% endblock %}
+        </div>
+
+    </div>
+</div>
+</body>
+</html>
